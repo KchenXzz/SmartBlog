@@ -71,7 +71,18 @@ public class Article {
         this.username = username;
     }
 
-
+    public Article(int oId, String title, String abs, int commentCount, int viewCount, String content, int putTop, long created, String imgName, String username) {
+        this.oId = oId;
+        this.title = title;
+        this.abs = abs;
+        this.commentCount = commentCount;
+        this.viewCount = viewCount;
+        this.content = content;
+        this.putTop = putTop;
+        this.created = created;
+        this.imgName = imgName;
+        this.username = username;
+    }
 
     /**
      * 获取

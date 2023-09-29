@@ -29,7 +29,7 @@ public class RegServlet extends HttpServlet {
         User user = new User(name, pwd, email);
         new UserDao().save(user);
 
-        Context context = new Context();
-        THUtils.print("blog/login.html",context,resp);
+        //重定向访问用户登录页面
+        resp.sendRedirect(req.getContextPath()+"/showlogin");
     }
 }

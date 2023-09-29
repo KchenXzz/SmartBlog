@@ -29,7 +29,7 @@ public class ArticleDao {
                     "FROM article AS a INNER JOIN user AS u " +
                     "ON  a.authorId=u.oId ORDER BY a.putTop DESC ,a.created DESC LIMIT 0,8;";
             PreparedStatement pst = conn.prepareStatement(sql);
-            return eachResultSet(pst,list);
+            return eachResultSet(pst, list);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -103,12 +103,13 @@ public class ArticleDao {
 
     /**
      * 查询文章列表 按照发布时间，倒叙返回
+     *
      * @return 文章集合
      */
-    public List<Article> getArticleList(){
+    public List<Article> getArticleList() {
         try (Connection conn = DBUtils.getConn()) {
             List<Article> list = new ArrayList<>();
-            String sql="SELECT " +
+            String sql = "SELECT " +
                     "a.oId,a.title,a.abstract,a.commentCount,a.viewCount,a.putTop,a.created,a.imgName,u.userName " +
                     "FROM article AS a INNER JOIN user AS u " +
                     "ON  a.authorId=u.oId ORDER BY a.created DESC LIMIT 0,8;";
@@ -121,17 +122,18 @@ public class ArticleDao {
 
     /**
      * 按照关键字，查询文章
+     *
      * @return 文章对象
      */
-    public List<Article> getArticleByKeyWord(String keyword){
+    public List<Article> getArticleByKeyWord(String keyword) {
         try (Connection conn = DBUtils.getConn()) {
             List<Article> list = new ArrayList<>();
-            String sql="SELECT " +
+            String sql = "SELECT " +
                     "a.oId,a.title,a.abstract,a.commentCount,a.viewCount,a.putTop,a.created,a.imgName,u.userName " +
                     "FROM article AS a INNER JOIN user AS u " +
                     "ON  a.authorId=u.oId WHERE a.title LIKE ? ORDER BY a.created DESC LIMIT 0,8;";
             PreparedStatement pst = conn.prepareStatement(sql);
-            pst.setString(1,"%"+keyword+"%");
+            pst.setString(1, "%" + keyword + "%");
             return eachResultSet(pst, list);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -141,22 +143,23 @@ public class ArticleDao {
 
     /**
      * 根据标题获取文章的内容
+     *
      * @param title 文章标题
      * @return 文章内容字符串
      */
-    public String getContentByTitle(String title){
+    public String getContentByTitle(String title) {
         try (Connection conn = DBUtils.getConn()) {
             List<String> list = new ArrayList<>();
-            String sql="SELECT " +
+            String sql = "SELECT " +
                     "content " +
                     "FROM article  " +
                     "WHERE title=?;";
             PreparedStatement pst = conn.prepareStatement(sql);
-            pst.setString(1,title);
+            pst.setString(1, title);
             ResultSet set = pst.executeQuery();
-            String content="";
-            while (set.next()){
-                 content= set.getString(1);
+            String content = "";
+            while (set.next()) {
+                content = set.getString(1);
             }
             return content;
         } catch (SQLException e) {
@@ -186,6 +189,27 @@ public class ArticleDao {
         return list;
     }
 
+    public boolean addArticle(Article article, int userOid) {
+        try (Connection conn = DBUtils.getConn()) {
+            String sql = "INSERT INTO article(title,abstract,content,commentCount,viewCount,putTop,imgName,created,authorId) " +
+                    "VALUES (?,?,?,?,?,?,?,?,?);";
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, article.getTitle());
+            pst.setString(2, article.getAbs());
+            pst.setString(3, article.getContent());
+            pst.setInt(4, article.getCommentCount());
+            pst.setInt(5, article.getViewCount());
+            pst.setInt(6, article.getPutTop());
+            pst.setString(7, article.getImgName());
+            pst.setLong(8, article.getCreated());
+            pst.setInt(9, userOid);//当前登录用户就是作者
+            return pst.executeUpdate()==1;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+
+    }
 
 
 }

@@ -1,6 +1,6 @@
 package com.kcx.dao;
 
-import com.kcx.extity.Tag;
+
 import com.kcx.extity.User;
 import com.kcx.util.DBUtils;
 
@@ -8,8 +8,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author kcx
@@ -43,19 +41,20 @@ public class UserDao {
      * @param password 密码
      * @return 是否匹配
      */
-    public boolean login(String username, String password) {//改成返回user对象 null登录失败
+    public User login(String username, String password) {//改成返回user对象 null登录失败
         try (Connection conn = DBUtils.getConn()) {
-            String sql = "SELECT COUNT(*) FROM user WHERE userName=? AND password=?;";
+            String sql = "SELECT oId,email FROM user WHERE userName=? AND password=?;";
             PreparedStatement pst = conn.prepareStatement(sql);
             pst.setString(1, username);
             pst.setString(2, password);
             ResultSet set = pst.executeQuery();
-            if (set.next() && set.getInt(1) > 0) {
-                return true;
-            } else return false;
+            while (set.next()) {
+                return new User(set.getInt(1),username,password,set.getString(2));
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        return null;
     }
 
 

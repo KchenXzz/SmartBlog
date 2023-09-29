@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<title>博客首页</title>
+<meta name="viewport"
+  content="width=device-width,initial-scale=1,user-scalable=no" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<link rel="stylesheet" type="text/css"
+  href="bootstrap3/css/bootstrap.css">
+<link rel="stylesheet" type="text/css"
+  href="bootstrap3/font-awesome-4.7.0/css/font-awesome.css" />
+<!-- 自定义样式 -->
+<link rel="stylesheet" type="text/css" href="css/layout3.css" />
+</head>
+
+<body>
+  <!--注册页标题-->
+  <header>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-offset-2 col-md-8">
+          <h1>
+            <small>欢迎使用</small> <b>Smart</b> Blogs
+          </h1>
+        </div>
+      </div>
+    </div>
+  </header>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-offset-2 col-md-8">
+        <!--注册面板-->
+        <div class="panel panel-primary">
+          <!--面板标题-->
+          <div class="panel-heading">
+            <h3 class="panel-title">发布文章</h3>
+          </div>
+          <!--面板主体-->
+          <div class="panel-body">
+            <!--注册表单-->
+            <form id="myform" class="form-horizontal" role="form"
+              action="send" method="post" >
+              <!-- 标题 -->
+              <div class="form-group">
+                <label for="title" class="col-md-2 control-label">标题</label>
+                <div class="col-md-8">
+                  <input type="text" class="form-control" id="title"
+                    name="title" placeholder="请输入文章标题">
+                </div>
+              </div>
+              <!--摘要-->
+              <div class="form-group">
+                <label for="abs" class="col-md-2 control-label">摘要</label>
+                <div class="col-md-8">
+                  <input type="text" class="form-control" id="abs"
+                    name="abs" placeholder="请输入文章摘要">
+                </div>
+              </div>
+              <!--正文-->
+              <div class="form-group">
+                <label for="content" class="col-md-2 control-label">正文</label>
+                <div class="col-md-8">
+                  <textarea class="form-control" rows="6" id="content"
+                  name="content"></textarea>
+                </div>
+              </div>
+              <!--图片-->
+              <div class="form-group">
+                <label for="imgName" class="col-md-2 control-label">图片</label>
+                <div class="col-md-8">
+                  <input type="file" class="form-control" id="imgName"
+                    name="imgName">
+                </div>
+              </div>
+              <!--置顶-->
+              <div class="form-group">
+                <label for="putTop" class="col-md-2 control-label">是否置顶</label>
+                <div class="col-md-8">
+                  <input type="checkbox" id="putTop"
+                    name="putTop" placeholder="请输入再次密码">
+                </div>
+              </div>
+              <!--注册按钮-->
+              <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                  <button type="submit" class="btn btn-default subreg">发布</button>
+                  <span></span>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <!--返回链接-->
+        <div>
+          <span><a href="home">回到首页</a></span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--网页页脚-->
+  <footer>
+    <div class="container">
+      <div class="text-center">
+        Copyright © 2018 Tedu.cn All Rights Reserved <br />
+        京ICP备08000853号-56 <a target="_blank" href="http://www.tedu.cn/">达内时代科技集团有限公司</a>
+        版权所有
+      </div>
+    </div>
+  </footer>
+</body>
+<script type="text/javascript" src="bootstrap3/jquery.min.js"></script>
+<script type="text/javascript" src="bootstrap3/js/bootstrap.js"></script>
+<script type="text/javascript" src="bootstrap3/js/holder.js"></script>
+<script type="text/javascript" src="bootstrap3/js/html5shiv.min.js"></script>
+<script type="text/javascript" src="bootstrap3/js/css3-mediaqueries.js"></script>
+<script type="text/javascript" src="bootstrap3/js/respond.min.js"></script>
+
+</html>

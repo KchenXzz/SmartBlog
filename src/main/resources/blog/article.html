@@ -31,21 +31,15 @@
         </h1>
         <!--导航栏-->
         <div>
-            <!-- class="nav navbar-nav" 定义导航条 -->
             <ul class="nav navbar-nav">
-                <li><a th:href="'home?name='+${username}" href="home">首页</a></li>
-                <li><a th:href="'list?name='+${username}" href="list">文章</a></li>
+                <li><a href="home">首页</a></li>
+                <li><a href="list">文章</a></li>
+                <li><a href="showsend">发布文章</a></li>
             </ul>
-            <!-- class="nav navbar-nav" 定义导航条 向右侧浮动 -->
+            <!-- 右侧导航条 -->
             <ul class="nav navbar-nav navbar-right">
-                <!-- 导航条中的文字使用 class="navbar-text" 样式 -->
-                <li>
-                    <p class="navbar-text" th:text="${username != 'null' ? '用户:' + username : '用户:未登录'}">
-                        用户:admin</p>
-                </li>
-                <li>
-                    <a href="showlogin" th:text="${username != 'null' ? '登出' : '登录'}">登录</a>
-                </li>
+                <li><p th:text="'用户:'+${user.userName}" class="navbar-text">用户:admin</p></li>
+                <li><a href="logout">登出</a></li>
             </ul>
         </div>
         <!-- /导航栏 -->
@@ -71,16 +65,18 @@
                 <img th:src="'images/'+${article.imgName}" src="images/img1.jpg"
                      class="img-rounded img-responsive center-block"/>
                 <!--文章正文-->
-                <div th:utext="${content}">
-                    <h3 th:remove="all">确实是一个感人的故事</h3>
-                    <p th:remove="all"><em>首先感觉：徐峥是好演员，而且这片接地气。</em></p>
-                    <p th:remove="all"><strong>故事梗概：</strong>
+                <div th:remove="all">
+                    <h3>确实是一个感人的故事</h3>
+                    <p><em>首先感觉：徐峥是好演员，而且这片接地气。</em></p>
+                    <p><strong>故事梗概：</strong>
                         印度神油店老板程勇日子过得窝囊，店里没生意，老父病危，手术费筹不齐。前妻跟有钱人怀上了孩子，还要把他儿子的抚养权给拿走。一日，店里来了一个白血病患者，求他从印度带回一批仿制的特效药，好让买不起天价正版药的患者保住一线生机。百般不愿却走投无路的程勇，意外因此一夕翻身，平价特效药救人无数，让他被病患封为“药神”，但随着利益而来的，是一场让他的生活以及贫穷病患性命都陷入危机的多方拉锯战
                     </p>
-                    <p th:remove="all">过多的剧透我就不做了~</p>
-                    <p th:remove="all">还是希望大家自己去看看~</p>
-                    <p th:remove="all"><strong>各大视频网站均已上线</strong></p>
+                    <p>过多的剧透我就不做了~</p>
+                    <p>还是希望大家自己去看看~</p>
+                    <p><strong>各大视频网站均已上线</strong></p>
                 </div>
+                <p th:text="${article.abs}"></p>
+                <p th:text="${content}"></p>
                 <!--文章标签-->
                 <div>
                             <span th:each="t:${article.tags}">
@@ -157,143 +153,126 @@
                 <!--评论开始-->
                 <h3>评论：</h3>
                 <!--评论1-->
-                <div class="media">
+                <div th:each="c:${coms}" class="media">
                     <div class="media-left col-md-1">
-                        <img class="media-object img-responsive" src="images/default.jpg">
+                        <img class="media-object img-responsive"
+                             src="images/default.jpg">
                     </div>
                     <div class="media-body col-md-11">
                         <div>
-									<span class="gray">
-										2018-11-23 11:44:
-									</span>
-                            <span class="pull-right">
-										<a href="javascript:void(0)" class="recomment">回复</a>
-									</span>
+                            <span th:text="${c.createdStr}" class="gray"> 2018-11-23 11:44: </span> <span
+                                class="pull-right"> <a
+                                href="javascript:void(0)" class="recomment">回复</a>
+                </span>
                         </div>
-                        <h4 class="media-heading">admin:我看完了，哭的稀里哗啦的</h4>
-                        <div class="unshow">
-                            <form role="form" action="article.html">
-                                <div class="form-group">
-                                    <input type="hidden" name="reCommentId" value="51"/>
-                                    <input type="hidden" name="reCommentName" value="admin"/>
-                                    <input type="hidden" name="commentOnId" value="36"/>
-                                    <textarea name="commentContent" id="commentContent" class="form-control"
-                                              rows="5"></textarea>
-                                    <span class="pull-right"> <input type="button"
-                                                                     class="btn btn-primary mymargin btn-xs subcomm"
-                                                                     value="提交"></span>
-                                    <span class="msg"></span>
-                                </div>
-                            </form>
-                        </div>
+                        <h4 th:text="${c.name}+':'+${c.content}" class="media-heading">
+                            admin:我看完了，哭的稀里哗啦的</h4>
                     </div>
                 </div>
                 <!--评论2-->
-                <div class="media">
+                <div th:remove="all" class="media">
                     <div class="media-left col-md-1">
-                        <img class="media-object img-responsive" src="images/default.jpg">
+                        <img class="media-object img-responsive"
+                             src="images/default.jpg">
                     </div>
                     <div class="media-body col-md-11">
                         <div>
-									<span class="gray">
-										2018-11-23 11:45 @admin :
-									</span>
-                            <span class="pull-right">
-										<a href="javascript:void(0)" class="recomment">回复</a>
-									</span>
+                            <span class="gray"> 2018-11-23 11:45 @admin : </span> <span
+                                class="pull-right"> <a
+                                href="javascript:void(0)" class="recomment">回复</a>
+                </span>
                         </div>
                         <h4 class="media-heading">rudy:这么感人么~我有空也看看</h4>
                         <div class="unshow">
                             <form role="form" action="article.html">
                                 <div class="form-group">
                                     <input type="hidden" name="reCommentId" value="51"/>
-                                    <input type="hidden" name="reCommentName" value="admin"/>
-                                    <input type="hidden" name="commentOnId" value="36"/>
-                                    <textarea name="commentContent" id="commentContent" class="form-control"
-                                              rows="5"></textarea>
-                                    <span class="pull-right"> <input type="button"
-                                                                     class="btn btn-primary mymargin btn-xs subcomm"
-                                                                     value="提交"></span>
-                                    <span class="msg"></span>
+                                    <input type="hidden" name="reCommentName"
+                                           value="admin"/> <input type="hidden"
+                                                                  name="commentOnId" value="36"/>
+                                    <textarea name="commentContent" id="commentContent"
+                                              class="form-control" rows="5"></textarea>
+                                    <span class="pull-right"> <input
+                                            type="button"
+                                            class="btn btn-primary mymargin btn-xs subcomm"
+                                            value="提交"></span> <span class="msg"></span>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
                 <!--评论3-->
-                <div class="media">
+                <div th:remove="all" class="media">
                     <div class="media-left col-md-1">
-                        <img class="media-object img-responsive" src="images/default.jpg">
+                        <img class="media-object img-responsive"
+                             src="images/default.jpg">
                     </div>
                     <div class="media-body col-md-11">
                         <div>
-									<span class="gray">
-										2018-11-23 11:47 @admin :
-									</span>
-                            <span class="pull-right">
-										<a href="javascript:void(0)" class="recomment">回复</a>
-									</span>
+                            <span class="gray"> 2018-11-23 11:47 @admin : </span> <span
+                                class="pull-right"> <a
+                                href="javascript:void(0)" class="recomment">回复</a>
+                </span>
                         </div>
                         <h4 class="media-heading">剑走偏锋:我看的时候也流泪</h4>
                         <div class="unshow">
                             <form role="form" action="article.html">
                                 <div class="form-group">
                                     <input type="hidden" name="reCommentId" value="51"/>
-                                    <input type="hidden" name="reCommentName" value="admin"/>
-                                    <input type="hidden" name="commentOnId" value="36"/>
-                                    <textarea name="commentContent" id="commentContent" class="form-control"
-                                              rows="5"></textarea>
-                                    <span class="pull-right"> <input type="button"
-                                                                     class="btn btn-primary mymargin btn-xs subcomm"
-                                                                     value="提交"></span>
-                                    <span class="msg"></span>
+                                    <input type="hidden" name="reCommentName"
+                                           value="admin"/> <input type="hidden"
+                                                                  name="commentOnId" value="36"/>
+                                    <textarea name="commentContent" id="commentContent"
+                                              class="form-control" rows="5"></textarea>
+                                    <span class="pull-right"> <input
+                                            type="button"
+                                            class="btn btn-primary mymargin btn-xs subcomm"
+                                            value="提交"></span> <span class="msg"></span>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
                 <!--评论4-->
-                <div class="media">
+                <div th:remove="all" class="media">
                     <div class="media-left col-md-1">
-                        <img class="media-object img-responsive" src="images/default.jpg">
+                        <img class="media-object img-responsive"
+                             src="images/default.jpg">
                     </div>
                     <div class="media-body col-md-11">
                         <div>
-									<span class="gray">
-										2018-11-23 11:47 :
-									</span>
-                            <span class="pull-right">
-										<a href="javascript:void(0)" class="recomment">回复</a>
-									</span>
+                            <span class="gray"> 2018-11-23 11:47 : </span> <span
+                                class="pull-right"> <a
+                                href="javascript:void(0)" class="recomment">回复</a>
+                </span>
                         </div>
                         <h4 class="media-heading">剑走偏锋:确实是一部能发人深省的片子</h4>
                         <div class="unshow">
                             <form role="form" action="article.html">
                                 <div class="form-group">
                                     <input type="hidden" name="reCommentId" value="51"/>
-                                    <input type="hidden" name="reCommentName" value="admin"/>
-                                    <input type="hidden" name="commentOnId" value="36"/>
-                                    <textarea name="commentContent" id="commentContent" class="form-control"
-                                              rows="5"></textarea>
-                                    <span class="pull-right"> <input type="button"
-                                                                     class="btn btn-primary mymargin btn-xs subcomm"
-                                                                     value="提交"></span>
-                                    <span class="msg"></span>
+                                    <input type="hidden" name="reCommentName"
+                                           value="admin"/> <input type="hidden"
+                                                                  name="commentOnId" value="36"/>
+                                    <textarea name="commentContent" id="commentContent"
+                                              class="form-control" rows="5"></textarea>
+                                    <span class="pull-right"> <input
+                                            type="button"
+                                            class="btn btn-primary mymargin btn-xs subcomm"
+                                            value="提交"></span> <span class="msg"></span>
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
-                <form role="form" action="article.html">
+                <form role="form" action="comment">
                     <div class="form-group">
-                        <input type="hidden" name="reCommentId" value="51"/>
-                        <input type="hidden" name="reCommentName" value="admin"/>
-                        <input type="hidden" name="commentOnId" value="36"/>
-                        <textarea name="commentContent" id="commentContent" class="form-control" rows="5"></textarea>
-                        <span class="pull-right"> <input type="button"
+                        <input type="hidden" name="articleId" th:value="${article.oId}" value="51"/>
+                        <textarea name="commentContent" id="commentContent"
+                                  class="form-control" rows="5"></textarea>
+                        <span class="pull-right"> <input type="submit"
                                                          class="btn btn-primary mymargin btn-xs subcomm"
-                                                         value="提交"></span>
-                        <span class="msg"></span>
+                                                         value="提交"></span> <span class="msg"></span>
                     </div>
                 </form>
 
@@ -313,7 +292,7 @@
                     </li>
                     <li class="list-group-item">
                         <!-- form表单 -->
-                        <form th:action="'search?name=' + ${username}" class="form-inline" method="post">
+                        <form th:action="'search?name=' + ${username}" class="form-inline" >
                             <div class="form-group">
                                 <input id="search_input" type="text" class="form-control" placeholder="请输入文章标题"
                                        name="keyword">

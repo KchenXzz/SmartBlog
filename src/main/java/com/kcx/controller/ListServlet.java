@@ -6,14 +6,16 @@ import com.kcx.dao.TagDao;
 import com.kcx.extity.Article;
 import com.kcx.extity.Link;
 import com.kcx.extity.Tag;
+import com.kcx.extity.User;
 import com.kcx.util.THUtils;
 import org.thymeleaf.context.Context;
 
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
@@ -26,13 +28,20 @@ import java.util.List;
 @WebServlet("/list")
 public class ListServlet extends HttpServlet {
     @Override
-    public void service(ServletRequest req, ServletResponse res) throws ServletException, IOException {
-
+    public void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        //获得session会话对象
+        HttpSession session= req.getSession();
+        User user=(User)session.getAttribute("user");
+        if(user==null){
+            //用户没有登录
+            //登录失败，重定向登录页面
+            res.sendRedirect(req.getContextPath()+"/showlogin");
+            //防止后面的代码运行
+            return;
+        }
         ArticleDao articleDao = new ArticleDao();
         Context context = new Context();
-        String username = req.getParameter("name");
-        System.out.println("list "+(username==null));
-        context.setVariable("username",username);
+
         List<Article> articleList = articleDao.getArticleList();
         context.setVariable("list",articleList);
         //查询右侧文章
@@ -46,17 +55,17 @@ public class ListServlet extends HttpServlet {
         context.setVariable("timeList",timeList);
         context.setVariable("commentList",commentList);
         context.setVariable("viewList",viewList);
-
         //分类标签
         TagDao tagDao = new TagDao();
         List<Tag> tagTypeList = tagDao.getTagType();
         context.setVariable("tagTypeList",tagTypeList);
-
         //友情链接
         LinkDao linkDao=new LinkDao();
         List<Link> linkList = linkDao.getLinkList();
         context.setVariable("linkList",linkList);
-
+        //将session中获得的登录用户信息保存到context中
+        //以便模板页面使用
+        context.setVariable("user",user);
 
         THUtils.print("blog/list.html",context,res);
     }
