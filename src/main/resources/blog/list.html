@@ -84,7 +84,7 @@
                             </div>
                             <div class="col-md-3">
                                         <span th:each="t:${a.tags}">
-										<a th:text="${t.title}" class="btn btn-info btn-xs" href="list.html">歌曲</a>
+										<a th:text="${t.title}"   th:href="'searchType?type=' + ${t.title}" class="btn btn-info btn-xs" href="list.html">歌曲</a>
                                         </span>
                                 <a th:remove="all" class="btn btn-info btn-xs" href="list.html">手机</a>
                                 <a th:remove="all" class="btn btn-info btn-xs" href="list.html">耳机</a>
@@ -487,7 +487,7 @@
                         </h3>
                     </li>
                     <li th:each="tag:${tagTypeList}" class="list-group-item">
-                        <a th:text="${tag.title}+'('+${tag.referenceCount}+')'" class="row1">八卦(6)</a>
+                        <a th:text="${tag.title}+'('+${tag.referenceCount}+')'"   th:href="'searchType?type=' + ${tag.title}"  class="row1">八卦(6)</a>
                     </li>
                     <li th:remove="all" class="list-group-item">
                         <a class="row1">演员(5)</a>
@@ -541,13 +541,11 @@
 </section>
 <!--网页底部， class.well 用于设置背景效果-->
 <footer class="well">
-    <!-- class.container 的作用是进行居中布局 -->
     <div class="container">
-        <b>Copyright © 2018 Tedu.cn All Rights Reserved
-            京ICP备08000853号-56 <a href="http://www.tedu.cn/">达内时代科技集团有限公司</a>
-            版权所有
-        </b> <span class="pull-right"> <b>Version</b> 0.1.0
-      </span>
+        <!-- 居中 -->
+        <b>build by </b> <br />
+        <a target="_blank" href="https://github.com/KchenXzz/SmartBlog">KchenXzz</a>
+        <span class="pull-right"><b>Version</b> 0.1.0</span>
     </div>
 </footer>
 

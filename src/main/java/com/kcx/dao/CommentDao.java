@@ -6,6 +6,7 @@ import com.kcx.util.DBUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +31,6 @@ public class CommentDao {
             ps.setInt(1,oid);
             ResultSet rs=ps.executeQuery();
             while (rs.next()){
-                int coid=rs.getInt(1);
                 String content= rs.getString(2);
                 long created= rs.getLong(3);
                 String name=rs.getString(4);
@@ -40,6 +40,24 @@ public class CommentDao {
             e.printStackTrace();
         }
         return comments;
+    }
+
+    public boolean addComment(Comment comment){
+
+        try (Connection conn = DBUtils.getConn()){
+            String sql="INSERT INTO comment(content,created,name,onId,userId) VALUES (?,?,?,?,?)";
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1,comment.getContent());
+            pst.setString(2, comment.getCreated().toString());
+            pst.setString(3,comment.getName());
+            pst.setInt(4,comment.getOnId());
+            pst.setInt(5,comment.getUserId());
+            return pst.executeUpdate()==1;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+
     }
 
 

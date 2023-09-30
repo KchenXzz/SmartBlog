@@ -75,7 +75,7 @@
                                 </p>
                                 <p th:text="'作者:'+${first.username}">作者:admin</p>
                                 <span th:each="t:${first.tags}">
-                                <a th:text="${t.title}" class="btn btn-info btn-xs">演员</a>
+                                <a th:text="${t.title}" class="btn btn-info btn-xs" th:href="'searchType?type=' + ${t.title}">演员</a>
                                 </span>
                                 <a th:remove="all" class="btn btn-info btn-xs">电影</a>
                             </div>
@@ -101,7 +101,7 @@
                                 <p th:text="'作者:'+${h.username}">作者:admin</p>
                                 <p>
                                     <span th:each="t:${h.tags}">
-                                    <a th:text="${t.title}" class="btn btn-info btn-xs">新闻</a>
+                                    <a th:text="${t.title}" class="btn btn-info btn-xs" th:href="'searchType?type=' + ${t.title}">新闻</a>
                                     </span>
                                     <a th:remove="all" class="btn btn-info btn-xs">军事</a>
                                 </p>
@@ -179,7 +179,7 @@
                             </div>
                             <div class="col-md-3">
                                 <span th:each="t:${b.tags}">
-                                <a th:text="${t.title}" class="btn btn-info btn-xs">歌曲</a>
+                                <a th:text="${t.title}" class="btn btn-info btn-xs" th:href="'searchType?type=' + ${t.title}">歌曲</a>
                                 </span>
                                 <a th:remove="all" class="btn btn-info btn-xs">手机</a>
                                 <a th:remove="all" class="btn btn-info btn-xs">耳机</a>
@@ -426,7 +426,7 @@
                         </h3>
                     </li>
                     <li th:each="tag:${tagTypeList}" class="list-group-item">
-                        <a th:text="${tag.title}+'('+${tag.referenceCount}+')'" th:href="type" class="row1">八卦(6)</a>
+                        <a th:text="${tag.title}+'('+${tag.referenceCount}+')'" th:href="'searchType?type=' + ${tag.title}" class="row1">八卦(6)</a>
                     </li>
                     <li th:remove="all" class="list-group-item">
                         <a class="row1">演员(5)</a>
@@ -486,10 +486,9 @@
 <footer class="well">
     <div class="container">
         <!-- 居中 -->
-        <b>Copyright © 2018 Tedu.cn All Rights Reserved
-            京ICP备08000853号-56 <a href="http://www.tmooc.cn">达内时代科技集团有限公司</a>
-            版权所有
-        </b> <span class="pull-right"><b>Version</b> 0.1.0</span>
+        <b>build by </b> <br />
+        <a target="_blank" href="https://github.com/KchenXzz/SmartBlog">KchenXzz</a>
+        <span class="pull-right"><b>Version</b> 0.1.0</span>
     </div>
 </footer>
 

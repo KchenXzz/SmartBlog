@@ -83,5 +83,14 @@ public class TestArticleDao {
         System.out.println(list);
     }
 
+    @Test
+    public void testGetArticleByType(){
+        ArticleDao articleDao = new ArticleDao();
+        List<Article> list = articleDao.getArticleByType("八卦");
+        for (Article article : list) {
+            System.out.println(article.getTitle());
+        }
+    }
+
 
 }

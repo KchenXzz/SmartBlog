@@ -140,6 +140,28 @@ public class ArticleDao {
         }
     }
 
+    /**
+     * 获取含有当前标签的所有文章
+     * @param type 文章标签
+     * @return 文章集合
+     */
+    public List<Article> getArticleByType(String type) {
+        try (Connection conn = DBUtils.getConn()) {
+            List<Article> list = new ArrayList<>();
+            String sql = "SELECT " +
+                    "a.oId,a.title,a.abstract,a.commentCount,a.viewCount,a.putTop,a.created,a.imgName,u.userName " +
+                    "FROM article AS a INNER JOIN user AS u " +
+                    "ON  a.authorId=u.oId WHERE a.oid IN "+
+                    "(SELECT article_oId FROM tag_article WHERE tag_oId IN " +
+                    "(SELECT oId FROM tag WHERE title=?)) ORDER BY a.created DESC LIMIT 0,8;";
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, type);
+            return eachResultSet(pst, list);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     /**
      * 根据标题获取文章的内容
@@ -203,7 +225,7 @@ public class ArticleDao {
             pst.setString(7, article.getImgName());
             pst.setLong(8, article.getCreated());
             pst.setInt(9, userOid);//当前登录用户就是作者
-            return pst.executeUpdate()==1;
+            return pst.executeUpdate() == 1;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

@@ -80,7 +80,7 @@
                 <!--文章标签-->
                 <div>
                             <span th:each="t:${article.tags}">
-							<a th:text="${t.title}" class="btn btn-info btn-xs" href="list.html?tid=49">演员</a>
+							<a th:text="${t.title}" th:href="'searchType?type=' + ${t.title}" class="btn btn-info btn-xs" href="list.html?tid=49">演员</a>
                             </span>
                     <a th:remove="all" class="btn btn-info btn-xs" href="list.html?tid=55">电影</a>
                 </div>
@@ -265,17 +265,15 @@
                         </div>
                     </div>
                 </div>
-                <form role="form" action="comment">
+                <form role="form" action="comment" method="post" >
                     <div class="form-group">
-                        <input type="hidden" name="articleId" th:value="${article.oId}" value="51"/>
-                        <textarea name="commentContent" id="commentContent"
-                                  class="form-control" rows="5"></textarea>
-                        <span class="pull-right"> <input type="submit"
-                                                         class="btn btn-primary mymargin btn-xs subcomm"
-                                                         value="提交"></span> <span class="msg"></span>
+                        <input type="hidden" name="article" th:value="${article.oId}+':'+${article.title}" value="51"/>
+                        <textarea name="commentContent" id="commentContent" class="form-control" rows="5"></textarea>
+                        <span class="pull-right"> <input type="submit" class="btn btn-primary mymargin btn-xs subcomm"
+                                                         value="提交"></span>
+                        <span class="msg"></span>
                     </div>
                 </form>
-
             </div>
             <!--右侧内容开始-->
             <div class="col-md-3">
@@ -292,7 +290,7 @@
                     </li>
                     <li class="list-group-item">
                         <!-- form表单 -->
-                        <form th:action="'search?name=' + ${username}" class="form-inline" >
+                        <form th:action="'search?name=' + ${username}" class="form-inline">
                             <div class="form-group">
                                 <input id="search_input" type="text" class="form-control" placeholder="请输入文章标题"
                                        name="keyword">
@@ -392,7 +390,7 @@
                         </h3>
                     </li>
                     <li th:each="tag:${tagTypeList}" class="list-group-item">
-                        <a th:text="${tag.title}+'('+${tag.referenceCount}+')'" th:href="type" class="row1">八卦(6)</a>
+                        <a th:text="${tag.title}+'('+${tag.referenceCount}+')'" th:href="'searchType?type=' + ${tag.title}"  class="row1">八卦(6)</a>
                     </li>
                     <li th:remove="all" class="list-group-item">
                         <a class="row1">演员(5)</a>
@@ -439,22 +437,21 @@
                     </li>
                 </ul>
                 <!-- 友情链接结束 -->
-
             </div>
         </div>
     </div>
     <section>
         <!--网页底部， class.well 用于设置背景效果-->
         <footer class="well">
-            <!-- class.container 的作用是进行居中布局 -->
             <div class="container">
-                <b>Copyright © 2018 Tedu.cn All Rights Reserved
-                    京ICP备08000853号-56 <a href="http://www.tedu.cn/">达内时代科技集团有限公司</a>
-                    版权所有
-                </b> <span class="pull-right"> <b>Version</b> 0.1.0
-      </span>
+                <!-- 居中 -->
+                <b>build by </b> <br />
+                <a target="_blank" href="https://github.com/KchenXzz/SmartBlog">KchenXzz</a>
+                <span class="pull-right"><b>Version</b> 0.1.0</span>
             </div>
         </footer>
+    </section>
+</section>
 </body>
 <script type="text/javascript" src="bootstrap3/jquery.min.js"></script>
 <script type="text/javascript" src="bootstrap3/js/bootstrap.js"></script>

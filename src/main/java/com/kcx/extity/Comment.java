@@ -7,30 +7,36 @@ import java.util.Date;
  * 文章评论实体类
  */
 public class Comment {
-    private int oid;
+
     private String content;//评论内容
     private long created;//评论时间
     private  String name;//评论人名
+
+    private int onId;//文章id
+    private int userId;//评论者id
+    private int originalCommentId;//父评论id
+    private int originalCommentName;//父评论用户名
 
     private String createdStr;
 
     public Comment() {
     }
 
-    public Comment(int oid, String content, long created, String name) {
-        this.oid = oid;
+    public Comment( String content, long created, String name, int onId, int userId) {
+        this.content = content;
+        this.created = created;
+        this.name = name;
+        this.onId = onId;
+        this.userId = userId;
+    }
+
+    public Comment(int onId, String content, long created, String name) {
+        this.onId=onId;
         this.content = content;
         this.created = created;
         this.name = name;
     }
 
-    public int getOid() {
-        return oid;
-    }
-
-    public void setOid(int oid) {
-        this.oid = oid;
-    }
 
     public String getContent() {
         return content;
@@ -40,7 +46,7 @@ public class Comment {
         this.content = content;
     }
 
-    public long getCreated() {
+    public Long getCreated() {
         return created;
     }
 
@@ -65,14 +71,72 @@ public class Comment {
         this.createdStr = createdStr;
     }
 
-    @Override
+
+    /**
+     * 获取
+     * @return onId
+     */
+    public int getOnId() {
+        return onId;
+    }
+
+    /**
+     * 设置
+     * @param onId
+     */
+    public void setOnId(int onId) {
+        this.onId = onId;
+    }
+
+    /**
+     * 获取
+     * @return userId
+     */
+    public int getUserId() {
+        return userId;
+    }
+
+    /**
+     * 设置
+     * @param userId
+     */
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    /**
+     * 获取
+     * @return originalCommentId
+     */
+    public int getOriginalCommentId() {
+        return originalCommentId;
+    }
+
+    /**
+     * 设置
+     * @param originalCommentId
+     */
+    public void setOriginalCommentId(int originalCommentId) {
+        this.originalCommentId = originalCommentId;
+    }
+
+    /**
+     * 获取
+     * @return originalCommentName
+     */
+    public int getOriginalCommentName() {
+        return originalCommentName;
+    }
+
+    /**
+     * 设置
+     * @param originalCommentName
+     */
+    public void setOriginalCommentName(int originalCommentName) {
+        this.originalCommentName = originalCommentName;
+    }
+
     public String toString() {
-        return "Comment{" +
-                "oid=" + oid +
-                ", content='" + content + '\'' +
-                ", created=" + created +
-                ", name='" + name + '\'' +
-                ", createdStr='" + createdStr + '\'' +
-                '}';
+        return "Comment{content = " + content + ", created = " + created + ", name = " + name + ", onId = " + onId + ", userId = " + userId + ", originalCommentId = " + originalCommentId + ", originalCommentName = " + originalCommentName + ", createdStr = " + createdStr + "}";
     }
 }
